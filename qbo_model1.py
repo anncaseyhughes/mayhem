@@ -34,7 +34,7 @@ Kz = 0.3                            # vertical eddy diffusion coefficient (m^2/s
 # Kelvin wave (F1)
 F0k = 1                             # Plumb 77 flux init
 ck = 25                             # phase speed in m/s  (Hamilton)
-kk = -1                             # wavenumber  (Hamilton)
+kk = 1                             # wavenumber  (Hamilton)
 
 # Yanai (RG wave) (F2)
 F0r = 1                             # Plumv 77 flux init
@@ -91,14 +91,16 @@ for j in range(len(z)-1):
     if u[j] == 0:
         m[j] = N[j]/1
     else: 
-        m[j] = N[j]/u[j]                  # BV/U (Beres 2004)
+        m[j] = N[j]/u[j]                  # N/U (Beres 2004)
 
 m[len(z)-1] = m[len(z)-2]
 
+for i in range(len(z)-1):
+    alpha
 alpha = (theta0/T)**2 * np.exp(-theta0/T) * (az + (bz*m**2)/(cz+m**1.5))
 
 g1 = (alpha[:,0]*N)/(kk*(ck-u)**2)                                               # inner function for flux of Kelvin wave momentum
-g2 = ((N*beta*alpha[:,0])/(kr**3*(cr-u)**3))*((1+(cr-u))/(beta*kk**2))           # inner function for flux of mixed RG wave momentum
+g2 = ((N*beta*alpha[:,0])/(kr**3*(cr-u)**3))*((1+(cr-u))/(beta*kr**2))           # inner function for flux of mixed RG wave momentum
 # [:,0] above for just wavenumber 1
 
 F1 = np.zeros(len(z))               # initialize momentum flux for Kelvin waves
@@ -129,3 +131,9 @@ eddydiff[len(z)-2] = eddydiff[len(z)-3]
 h = kelv_fluxconv + eddydiff + mrg_fluxconv
 for j in range(len(u)):
     u[j] = u[j] +dt*h[j]
+    
+
+
+
+
+
